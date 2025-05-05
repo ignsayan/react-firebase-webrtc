@@ -1,8 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isRejectedWithValue } from '@reduxjs/toolkit'
+import attemptLogin from './slices/attemptLogin'
 
 const initialState = {
     loading: false,
-    user: null,
+    isAuthenticated: localStorage.getItem('authToken') ? true : false,
 };
 
 export const authSlice = createSlice({
@@ -12,16 +13,27 @@ export const authSlice = createSlice({
         initiateLogin: (state) => {
             state.loading = true
         },
-        attemptLogin: (state, action) => {
-            state.user = action.payload
-            state.loading = false
-        },
         logout: (state) => {
-            state.user = null
+            localStorage.removeItem('authToken');
+            state.isAuthenticated = false
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(attemptLogin.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(attemptLogin.fulfilled, (state, action) => {
+                state.isAuthenticated = true
+                state.loading = false;
+            })
+            .addMatcher(isRejectedWithValue, (state) => {
+                state.loading = false;
+            })
     }
 })
 
-export const { initiateLogin, attemptLogin, logout } = authSlice.actions
+export const { initiateLogin, logout } = authSlice.actions
+export { attemptLogin }
 
 export default authSlice.reducer;

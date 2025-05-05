@@ -1,14 +1,12 @@
 import React from 'react'
 import { FcGoogle } from 'react-icons/fc'
-import { app } from '../configs/firebase'
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { auth } from '../configs/firebase'
 import { useDispatch, useSelector } from 'react-redux'
-import { attemptLogin, initiateLogin } from '../modules/auth/reducer'
+import { initiateLogin, attemptLogin } from '../modules/auth/reducer'
 
 export default function GoogleAuth() {
 
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
     const { loading } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
@@ -16,14 +14,9 @@ export default function GoogleAuth() {
 
         try {
             dispatch(initiateLogin());
+            const provider = new GoogleAuthProvider();
             const google = await signInWithPopup(auth, provider);
-            let user = google.user;
-            user = {
-                name: user.displayName,
-                email: user.email,
-                photo: user.photoURL
-            }
-            dispatch(attemptLogin(user));
+            dispatch(attemptLogin(google.user));
 
         } catch (error) {
             console.error(error);

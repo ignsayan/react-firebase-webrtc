@@ -9,8 +9,8 @@ const container = document.getElementById('root')
 const root = createRoot(container)
 
 const App = () => {
-    const { user } = useSelector((state) => state.auth)
-    return !user ? <AuthLayout /> : <ChatLayout />
+    const { isAuthenticated } = useSelector((state) => state.auth)
+    return !isAuthenticated ? <AuthLayout /> : <ChatLayout />
 }
 
 root.render(

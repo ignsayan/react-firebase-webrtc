@@ -1,10 +1,13 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { logout } from '../modules/auth/reducer'
 
 export default function ChatList() {
-    // Logout handler function (you can replace this with actual logout functionality)
+
+    const dispatch = useDispatch();
+
     const handleLogout = () => {
-        console.log('Logging out...');
-        // Add your logout logic here (e.g., clearing tokens, redirecting, etc.)
+        dispatch(logout());
     };
 
     return (
