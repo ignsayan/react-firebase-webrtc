@@ -11,11 +11,12 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         initiateLogin: (state) => {
-            state.loading = true
+            state.loading = true;
         },
         logout: (state) => {
+            localStorage.removeItem('uid');
             localStorage.removeItem('authToken');
-            state.isAuthenticated = false
+            state.isAuthenticated = false;
         }
     },
     extraReducers: (builder) => {
@@ -24,7 +25,7 @@ export const authSlice = createSlice({
                 state.loading = true;
             })
             .addCase(attemptLogin.fulfilled, (state, action) => {
-                state.isAuthenticated = true
+                state.isAuthenticated = true;
                 state.loading = false;
             })
             .addMatcher(isRejectedWithValue, (state) => {
