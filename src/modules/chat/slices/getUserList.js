@@ -17,6 +17,6 @@ const getUserList = createAsyncThunk(
         } catch (error) {
             return rejectWithValue(error.message || 'Failed to fetch users');
         }
-    })
+    });
 
 export default getUserList

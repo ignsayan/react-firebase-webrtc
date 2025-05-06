@@ -30,7 +30,6 @@ const attemptLogin = createAsyncThunk(
         } catch (error) {
             return rejectWithValue(error.message || 'Failed to login');
         }
-    }
-);
+    });
 
 export default attemptLogin

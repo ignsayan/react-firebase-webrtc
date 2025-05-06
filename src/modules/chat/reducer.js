@@ -1,10 +1,12 @@
 import { createSlice, isRejectedWithValue } from '@reduxjs/toolkit'
 import getUserList from './slices/getUserList'
+import getMessages from './slices/getMessages'
 
 const initialState = {
-    loading: false,
     users: [],
     activeChatRoom: false,
+    currentUser: {},
+    error: null,
 };
 
 export const chatSlice = createSlice({
@@ -13,20 +15,20 @@ export const chatSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getUserList.pending, (state) => {
-                state.loading = true;
-            })
             .addCase(getUserList.fulfilled, (state, action) => {
                 state.users = action.payload;
-                state.loading = false;
             })
-            .addMatcher(isRejectedWithValue, (state) => {
-                state.loading = false;
+            .addCase(getMessages.fulfilled, (state, action) => {
+                state.currentUser = action.payload;
+                state.activeChatRoom = true;
+            })
+            .addMatcher(isRejectedWithValue, (state, action) => {
+                state.error = action.payload;
             })
     }
-})
+});
 
 export const { } = chatSlice.actions
-export { getUserList }
+export { getUserList, getMessages }
 
 export default chatSlice.reducer
