@@ -1,6 +1,6 @@
 import { createSlice, isRejectedWithValue } from '@reduxjs/toolkit'
 import attemptLogin from './slices/attemptLogin'
-import logoutUser from './slices/logOutUser'
+import logoutUser from './slices/logoutUser'
 
 const initialState = {
     loading: false,
