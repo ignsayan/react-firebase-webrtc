@@ -1,15 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { db } from '../../../configs/firebase'
-import { doc, getDoc } from 'firebase/firestore'
+import { collection, getDocs, orderBy, query } from 'firebase/firestore'
+import { db, generateChatRoom } from '../../../configs/firebase'
 
 const getMessages = createAsyncThunk(
     'chat/getMessages',
-    async (uid, { rejectWithValue }) => {
-        
+    async ({ sender, receiver }, { rejectWithValue }) => {
+
         try {
-            const userRef = doc(db, 'users', uid);
-            const userDoc = await getDoc(userRef);
-            return userDoc.data();
+            const chatRoom = generateChatRoom(sender, receiver);
+            const messagesRef = collection(db, 'chats', chatRoom, 'messages');
+
+            const builder = query(messagesRef, orderBy('timestamp', 'asc'));
+            const snapshot = await getDocs(builder);
+
+            return snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+                timestamp: doc.data().timestamp.toDate().toISOString(),
+            }));
 
         } catch (error) {
             return rejectWithValue(error.message || 'Failed to load chats');

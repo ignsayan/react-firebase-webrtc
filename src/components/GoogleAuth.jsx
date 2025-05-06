@@ -11,17 +11,11 @@ export default function GoogleAuth() {
     const dispatch = useDispatch();
 
     const handleGoogleAuthentication = async () => {
-
-        try {
-            dispatch(initiateLogin());
-            const provider = new GoogleAuthProvider();
-            const google = await signInWithPopup(auth, provider);
-            dispatch(attemptLogin(google.user));
-
-        } catch (error) {
-            console.error(error);
-        }
-    }
+        dispatch(initiateLogin());
+        const provider = new GoogleAuthProvider();
+        const google = await signInWithPopup(auth, provider);
+        dispatch(attemptLogin(google.user));
+    };
 
     return (
         <button
@@ -37,5 +31,5 @@ export default function GoogleAuth() {
             }
             Continue with Google
         </button>
-    )
+    );
 }

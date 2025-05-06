@@ -1,19 +1,29 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserList, getMessages } from '../modules/chat/reducer'
+import { getUserList, getChatUser, getMessages, resetChatState } from '../modules/chat/reducer'
 import { logoutUser } from '../modules/auth/reducer'
 import ChatListSkeleton from './loaders/ChatListSkeleton'
 
 export default function ChatList() {
 
-    const dispatch = useDispatch();
     const { users, loading } = useSelector((state) => state.chat);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getUserList());
     }, []);
 
+    const openInbox = (uid) => () => {
+        dispatch(resetChatState());
+        dispatch(getChatUser(uid));
+        dispatch(getMessages({
+            sender: localStorage.getItem('uid'),
+            receiver: uid,
+        }));
+    };
+
     const handleLogout = () => {
+        dispatch(resetChatState({ type: 'logout' }));
         dispatch(logoutUser());
     };
 
@@ -27,7 +37,7 @@ export default function ChatList() {
             {users.length > 0
                 ? <ul className="flex-1 max-h-[calc(100vh-140px)] overflow-y-auto scrollbar-hidden md:scrollbar-default">
                     {users.map((user, i) => (
-                        <li key={i} onClick={() => dispatch(getMessages(user.uid))}
+                        <li key={i} onClick={openInbox(user.uid)}
                             className="p-3 hover:bg-gray-700 rounded cursor-pointer mb-2 transition-all flex items-center"
                         >
                             <img src={user.photo} className="w-10 h-10 rounded-full mr-3" />

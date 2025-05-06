@@ -12,7 +12,7 @@ const getUserList = createAsyncThunk(
 
             return userDoc.docs
                 .map((doc) => doc.data())
-                // .filter((user) => user.uid !== localStorage.getItem('uid'));
+                .filter((user) => user.uid !== localStorage.getItem('uid'));
 
         } catch (error) {
             return rejectWithValue(error.message || 'Failed to fetch users');
