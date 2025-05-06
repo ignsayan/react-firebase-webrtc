@@ -25,7 +25,7 @@ export default function ChatList() {
 
             {/* User List */}
             {users.length > 0
-                ? <ul className="flex-1 max-h-[calc(100vh-200px)] overflow-y-auto scrollbar-hidden md:scrollbar-default">
+                ? <ul className="flex-1 max-h-[calc(100vh-140px)] overflow-y-auto scrollbar-hidden md:scrollbar-default">
                     {users.map((user, i) => (
                         <li key={i} onClick={() => dispatch(getMessages(user.uid))}
                             className="p-3 hover:bg-gray-700 rounded cursor-pointer mb-2 transition-all flex items-center"
@@ -43,7 +43,7 @@ export default function ChatList() {
                 : <ChatListSkeleton />}
 
             {/* Logout Button */}
-            <div className="mt-4">
+            <div className="mt-auto">
                 <button onClick={handleLogout}
                     className="w-full bg-red-600 text-white py-2 rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                     disabled={loading}

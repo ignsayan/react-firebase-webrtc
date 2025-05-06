@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import ChatInboxSkeleton from './loaders/ChatInboxSkeleton';
+import ChatInboxSkeleton from './loaders/ChatInboxSkeleton'
 
 export default function ChatInbox() {
 
