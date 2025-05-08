@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../../../configs/firebase'
 
-const getUserList = createAsyncThunk(
-    'chat/getUserList',
+const getAvailableUsers = createAsyncThunk(
+    'chat/getAvailableUsers',
     async (_, { rejectWithValue }) => {
 
         try {
@@ -19,4 +19,4 @@ const getUserList = createAsyncThunk(
         }
     });
 
-export default getUserList
+export default getAvailableUsers

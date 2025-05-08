@@ -1,7 +1,7 @@
 import { createSlice, isRejectedWithValue } from '@reduxjs/toolkit'
-import getUserList from './slices/getUserList'
-import getChatUser from './slices/getChatUser'
-import getMessages from './slices/getMessages'
+import getChatMessages from './slices/getChatMessages'
+import getChatroomUser from './slices/getChatroomUser'
+import getAvailableUsers from './slices/getAvailableUsers'
 import sendMessage from './slices/sendMessage'
 
 const initialState = {
@@ -26,14 +26,14 @@ export const chatSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getUserList.fulfilled, (state, action) => {
+            .addCase(getAvailableUsers.fulfilled, (state, action) => {
                 state.users = action.payload;
             })
-            .addCase(getChatUser.fulfilled, (state, action) => {
+            .addCase(getChatroomUser.fulfilled, (state, action) => {
                 state.activeChatUser = action.payload;
                 state.activeChatRoom = true;
             })
-            .addCase(getMessages.fulfilled, (state, action) => {
+            .addCase(getChatMessages.fulfilled, (state, action) => {
                 state.chats = action.payload;
             })
             .addCase(sendMessage.fulfilled, (state, action) => {
@@ -46,6 +46,6 @@ export const chatSlice = createSlice({
 });
 
 export const { resetChatState } = chatSlice.actions
-export { getUserList, getChatUser, getMessages, sendMessage }
+export { getAvailableUsers, getChatroomUser, getChatMessages, sendMessage }
 
 export default chatSlice.reducer

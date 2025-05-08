@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserList, getChatUser, getMessages, resetChatState } from '../modules/chat/reducer'
+import { getAvailableUsers, getChatroomUser, getChatMessages, resetChatState } from '../modules/chat/reducer'
 import { logoutUser } from '../modules/auth/reducer'
-import ChatListSkeleton from './loaders/ChatListSkeleton'
+import FriendListSkeleton from './loaders/FriendListSkeleton'
 
-export default function ChatList() {
+export default function FriendList() {
 
     const { users, loading } = useSelector((state) => state.chat);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getUserList());
+        dispatch(getAvailableUsers());
     }, []);
 
     const openInbox = (uid) => () => {
         dispatch(resetChatState());
-        dispatch(getChatUser(uid));
-        dispatch(getMessages({
+        dispatch(getChatroomUser(uid));
+        dispatch(getChatMessages({
             sender: localStorage.getItem('uid'),
             receiver: uid,
         }));
@@ -50,7 +50,7 @@ export default function ChatList() {
                         </li>
                     ))}
                 </ul>
-                : <ChatListSkeleton />}
+                : <FriendListSkeleton />}
 
             {/* Logout Button */}
             <div className="mt-auto">

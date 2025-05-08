@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ChatListSkeleton() {
+export default function FriendListSkeleton() {
 
     return (
         <ul className="flex-1 max-h-[calc(100vh-200px)] overflow-y-auto scrollbar-hidden md:scrollbar-default">

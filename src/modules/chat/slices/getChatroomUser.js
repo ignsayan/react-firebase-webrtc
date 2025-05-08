@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { db } from '../../../configs/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 
-const getChatUser = createAsyncThunk(
+const getChatroomUser = createAsyncThunk(
     'chat/getChatUser',
     async (uid, { rejectWithValue }) => {
         
@@ -16,4 +16,4 @@ const getChatUser = createAsyncThunk(
         }
     });
 
-export default getChatUser
+export default getChatroomUser

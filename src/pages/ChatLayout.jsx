@@ -1,7 +1,7 @@
 import React from 'react'
 import ChatInbox from '../components/ChatInbox'
 import EmptyChatInbox from '../components/EmptyChatInbox'
-import ChatList from '../components/ChatList'
+import FriendList from '../components/FriendList'
 import { useSelector } from 'react-redux'
 
 export default function ChatLayout() {
@@ -10,7 +10,7 @@ export default function ChatLayout() {
 
     return (
         <div className="h-screen flex bg-gray-50">
-            <ChatList />
+            <FriendList />
             {activeChatRoom ? <ChatInbox /> : <EmptyChatInbox />}
         </div>
     );
