@@ -40,9 +40,6 @@ export const chatSlice = createSlice({
             .addCase(getChatHistory.fulfilled, (state, action) => {
                 state.chats = action.payload;
             })
-            .addCase(sendMessage.fulfilled, (state, action) => {
-                state.chats.push(action.payload);
-            })
             .addMatcher(isRejectedWithValue, (state, action) => {
                 state.error = action.payload;
             })

@@ -29,7 +29,7 @@ export default function FriendList() {
         }));
         dispatch(listenToMessages({
             sender: currentUserId,
-            otherUserId: uid,
+            receiver: uid,
         }));
     };
 

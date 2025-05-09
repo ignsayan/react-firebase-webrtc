@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { collection, getDocs, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { db, generateChatRoom } from '../../../configs/firebase'
 import { setMessages } from '../reducer'
 
@@ -19,7 +19,8 @@ const listenToMessages = createAsyncThunk(
             unsubscribe = onSnapshot(builder, (snapshot) => {
                 const messages = snapshot.docs.map(doc => ({
                     id: doc.id,
-                    ...doc.data()
+                    ...doc.data(),
+                    timestamp: doc.data().timestamp?.toDate().toISOString() ?? null,
                 }));
                 dispatch(setMessages(messages));
             });

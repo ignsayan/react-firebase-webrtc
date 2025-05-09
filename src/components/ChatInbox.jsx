@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { sendMessage } from '../modules/chat/reducer'
 
@@ -6,6 +6,13 @@ export default function ChatInbox() {
 
     const { activeChatUser, chats } = useSelector((state) => state.chat);
     const dispatch = useDispatch();
+    const messagesEndRef = useRef(null);
+
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [chats]);
 
     const handleReply = (receiver) => (form) => {
         const chat = {
@@ -44,6 +51,7 @@ export default function ChatInbox() {
                         }
                     </Fragment>
                 ))}
+                <div ref={messagesEndRef} />
             </div>
 
             {/* Input Area */}

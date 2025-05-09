@@ -16,7 +16,7 @@ const getChatHistory = createAsyncThunk(
             return snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data(),
-                timestamp: doc.data().timestamp.toDate().toISOString(),
+                timestamp: doc.data().timestamp?.toDate().toISOString() ?? null,
             }));
 
         } catch (error) {
