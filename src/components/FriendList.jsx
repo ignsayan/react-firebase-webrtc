@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAvailableUsers, getChatroomUser, getChatMessages, resetChatState } from '../modules/chat/reducer'
 import { logoutUser } from '../modules/auth/reducer'
 import FriendListSkeleton from './loaders/FriendListSkeleton'
+import {
+    getAvailableUsers,
+    getChatroomUser,
+    getChatHistory,
+    listenToMessages,
+    resetChatState,
+} from '../modules/chat/reducer'
 
 export default function FriendList() {
 
@@ -14,11 +20,16 @@ export default function FriendList() {
     }, []);
 
     const openInbox = (uid) => () => {
+        const currentUserId = localStorage.getItem('uid');
         dispatch(resetChatState());
         dispatch(getChatroomUser(uid));
-        dispatch(getChatMessages({
-            sender: localStorage.getItem('uid'),
+        dispatch(getChatHistory({
+            sender: currentUserId,
             receiver: uid,
+        }));
+        dispatch(listenToMessages({
+            sender: currentUserId,
+            otherUserId: uid,
         }));
     };
 

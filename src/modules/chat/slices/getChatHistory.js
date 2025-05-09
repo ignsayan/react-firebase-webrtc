@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import { db, generateChatRoom } from '../../../configs/firebase'
 
-const getChatMessages = createAsyncThunk(
-    'chat/getChatMessages',
+const getChatHistory = createAsyncThunk(
+    'chat/getChatHistory',
     async ({ sender, receiver }, { rejectWithValue }) => {
 
         try {
@@ -24,4 +24,4 @@ const getChatMessages = createAsyncThunk(
         }
     });
 
-export default getChatMessages
+export default getChatHistory
