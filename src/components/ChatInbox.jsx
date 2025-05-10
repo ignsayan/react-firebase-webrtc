@@ -8,12 +8,27 @@ export default function ChatInbox() {
     const dispatch = useDispatch();
     const messagesEndRef = useRef(null);
 
+    /**
+     * @function useEffect
+     * @description Effect hook that scrolls to the bottom of the chat inbox when the user sends a message.
+     * 
+     * @param {React.RefObject<HTMLDivElement | null>} messagesEndRef - A ref to the last message in the chat inbox.
+     * @param {Array<Object>} chats - The array of chat messages.
+     * @returns {void}
+     */
     useEffect(() => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
         }
-    }, [chats]);
+    }, [chats, messagesEndRef]);
 
+    /**
+     * @function handleReply
+     * @description Handles sending a message to the current active chat user.
+     *
+     * @param {string} receiver The uid of the user to send the message to.
+     * @returns {(form: FormData) => void}
+     */
     const handleReply = (receiver) => (form) => {
         const chat = {
             sender: localStorage.getItem('uid'),

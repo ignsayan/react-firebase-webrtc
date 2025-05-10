@@ -2,6 +2,26 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import { db, generateChatRoom } from '../../../configs/firebase'
 
+/**
+ * @function getChatHistory
+ * @description
+ * Fetches the chat message history between two users from a specific chat room in Firestore.
+ * The messages are ordered by timestamp in ascending order to preserve chronological order.
+ *
+ * This thunk uses the `generateChatRoom(sender, receiver)` function to create a consistent
+ * room ID for the chat between the two users and then queries the `messages` subcollection.
+ *
+ * @type {AsyncThunk}
+ *
+ * @param {Object} params - The parameters object.
+ * @param {string} params.sender - The UID of the current user (sender).
+ * @param {string} params.receiver - The UID of the other user (receiver).
+ * @param {Object} thunkAPI - An object provided by Redux Toolkit.
+ * @param {Function} thunkAPI.rejectWithValue - Helper function to handle errors with a value.
+ *
+ * @returns {Promise<Array<Object>>} A promise that resolves to an array of message objects, 
+ * @throws {string} A rejected value with an error message if the fetch fails.
+ */
 const getChatHistory = createAsyncThunk(
     'chat/getChatHistory',
     async ({ sender, receiver }, { rejectWithValue }) => {

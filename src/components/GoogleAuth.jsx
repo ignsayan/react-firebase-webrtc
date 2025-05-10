@@ -10,6 +10,12 @@ export default function GoogleAuth() {
     const { loading } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
+    /**
+     * @function handleGoogleAuthentication
+     * @description Handles user authentication via Google using Firebase Authentication.
+     * 
+     * @returns {Promise<void>} A Promise that resolves once the login process completes.
+     */
     const handleGoogleAuthentication = async () => {
         dispatch(initiateLogin());
         const provider = new GoogleAuthProvider();

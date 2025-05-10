@@ -15,10 +15,21 @@ export default function FriendList() {
     const { users, loading } = useSelector((state) => state.chat);
     const dispatch = useDispatch();
 
+    /**
+     * @function useEffect
+     * @description Fetches the available users when the component mounts.
+     */
     useEffect(() => {
         dispatch(getAvailableUsers());
     }, []);
 
+    /**
+     * @function openInbox
+     * @description Returns a function that initializes the chat inbox for a selected user.
+     * 
+     * @param {string} uid - The UID of the user whose inbox is being opened.
+     * @returns {Function} A function to be used as an event handler, such as in onClick.
+     */
     const openInbox = (uid) => () => {
         const currentUserId = localStorage.getItem('uid');
         dispatch(resetChatState());
@@ -33,6 +44,10 @@ export default function FriendList() {
         }));
     };
 
+    /**
+     * Resets the chat state and logs the user out of the application.
+     * Used to handle the logout button click event.
+     */
     const handleLogout = () => {
         dispatch(resetChatState({ type: 'logout' }));
         dispatch(logoutUser());
