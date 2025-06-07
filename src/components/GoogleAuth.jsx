@@ -1,21 +1,15 @@
-import React from 'react'
-import { FcGoogle } from 'react-icons/fc'
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-import { auth } from '../configs/firebase'
-import { useDispatch, useSelector } from 'react-redux'
-import { initiateLogin, attemptLogin } from '../modules/auth/reducer'
+import React from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../configs/firebase';
+import { useDispatch, useSelector } from 'react-redux';
+import { initiateLogin, attemptLogin } from '../modules/auth/reducer';
 
 export default function GoogleAuth() {
 
     const { loading } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
-    /**
-     * @function handleGoogleAuthentication
-     * @description Handles user authentication via Google using Firebase Authentication.
-     * 
-     * @returns {Promise<void>} A Promise that resolves once the login process completes.
-     */
     const handleGoogleAuthentication = async () => {
         dispatch(initiateLogin());
         const provider = new GoogleAuthProvider();

@@ -1,6 +1,6 @@
-import { createSlice, isRejectedWithValue } from '@reduxjs/toolkit'
-import attemptLogin from './slices/attemptLogin'
-import logoutUser from './slices/logoutUser'
+import { createSlice, isRejectedWithValue } from '@reduxjs/toolkit';
+import attemptLogin from './slices/attemptLogin';
+import logoutUser from './slices/logoutUser';
 
 const initialState = {
     loading: false,
@@ -39,7 +39,10 @@ export const authSlice = createSlice({
     }
 });
 
-export const { initiateLogin } = authSlice.actions
-export { attemptLogin, logoutUser }
+export const { initiateLogin } = authSlice.actions;
+export {
+    attemptLogin,
+    logoutUser,
+};
 
-export default authSlice.reducer
+export default authSlice.reducer;

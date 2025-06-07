@@ -1,9 +1,9 @@
-import { createSlice, isRejectedWithValue } from '@reduxjs/toolkit'
-import getAvailableUsers from './slices/getAvailableUsers'
-import getChatroomUser from './slices/getChatroomUser'
-import getChatHistory from './slices/getChatHistory'
-import listenToMessages from './slices/listenToMessages'
-import sendMessage from './slices/sendMessage'
+import { createSlice, isRejectedWithValue } from '@reduxjs/toolkit';
+import getAvailableUsers from './slices/getAvailableUsers';
+import getChatroomUser from './slices/getChatroomUser';
+import getChatHistory from './slices/getChatHistory';
+import listenToMessages from './slices/listenToMessages';
+import sendMessage from './slices/sendMessage';
 
 const initialState = {
     users: [],
@@ -53,6 +53,6 @@ export {
     getChatHistory,
     listenToMessages,
     sendMessage,
-}
+};
 
-export default chatSlice.reducer
+export default chatSlice.reducer;

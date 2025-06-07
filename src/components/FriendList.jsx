@@ -1,35 +1,24 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { logoutUser } from '../modules/auth/reducer'
-import FriendListSkeleton from './loaders/FriendListSkeleton'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../modules/auth/reducer';
+import FriendListSkeleton from './loaders/FriendListSkeleton';
 import {
     getAvailableUsers,
     getChatroomUser,
     getChatHistory,
     listenToMessages,
     resetChatState,
-} from '../modules/chat/reducer'
+} from '../modules/chat/reducer';
 
-export default function FriendList() {
+export default function FriendList({ sidebarOpen, setSidebarOpen }) {
 
     const { users, loading } = useSelector((state) => state.chat);
     const dispatch = useDispatch();
 
-    /**
-     * @function useEffect
-     * @description Fetches the available users when the component mounts.
-     */
     useEffect(() => {
         dispatch(getAvailableUsers());
     }, []);
 
-    /**
-     * @function openInbox
-     * @description Returns a function that initializes the chat inbox for a selected user.
-     * 
-     * @param {string} uid - The UID of the user whose inbox is being opened.
-     * @returns {Function} A function to be used as an event handler, such as in onClick.
-     */
     const openInbox = (uid) => () => {
         const currentUserId = localStorage.getItem('uid');
         dispatch(resetChatState());
@@ -44,45 +33,61 @@ export default function FriendList() {
         }));
     };
 
-    /**
-     * Resets the chat state and logs the user out of the application.
-     * Used to handle the logout button click event.
-     */
     const handleLogout = () => {
         dispatch(resetChatState({ type: 'logout' }));
         dispatch(logoutUser());
     };
 
     return (
-        <div className="w-full md:w-1/4 border-r border-gray-700 bg-gray-800 text-white p-4 flex flex-col h-[23vh] md:h-screen">
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">{import.meta.env.VITE_APP_NAME}</h3>
-            </div>
+        <>
+            <aside
+                className={`
+                    fixed inset-y-0 left-0 bg-gray-800 p-4 h-screen w-64 flex flex-col
+                    transform transition-transform duration-300 ease-in-out
+                    md:relative md:translate-x-0 border-r border-gray-700
+                    ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+                `}
+            >
+                {/* Close button (mobile only) */}
+                <button
+                    className="md:hidden mb-4 px-4 py-1 bg-gray-700 rounded hover:bg-gray-600"
+                    onClick={() => setSidebarOpen(false)}
+                >
+                    Close ✕
+                </button>
 
-            {/* User List */}
-            {users.length > 0
-                ? <ul className="flex-1 max-h-[calc(50vh-140px)] md:max-h-[calc(100vh-140px)] overflow-y-auto scrollbar-hidden md:scrollbar-default">
-                    {users.map((user, i) => (
-                        <li key={i} onClick={openInbox(user.uid)}
-                            className="p-3 hover:bg-gray-700 rounded cursor-pointer mb-2 transition-all flex items-center"
-                        >
-                            <img src={user.photo} className="w-10 h-10 rounded-full mr-3" />
-                            <div>
-                                <div className="font-medium">
-                                    {user.name} {localStorage.getItem('uid') === user.uid && '(You)'}
+                {/* Chats Header */}
+                <h2 className="text-xl font-semibold mb-4">Chats</h2>
+
+                {/* User List */}
+                {users.length > 0
+                    ? <ul className="space-y-3 flex-1 overflow-y-auto">
+                        {users.map((user, i) => (
+                            <li
+                                key={i}
+                                onClick={openInbox(user.uid)}
+                                className="flex items-center gap-3 p-3 bg-gray-700 rounded-xl hover:bg-gray-600 cursor-pointer"
+                            >
+                                <img
+                                    src={user.photo || `https://i.pravatar.cc/150?img=${i + 1}`}
+                                    className="w-10 h-10 rounded-full object-cover"
+                                />
+                                <div className="flex-1">
+                                    <div className="font-medium">
+                                        {user.name} {localStorage.getItem('uid') === user.uid && '(You)'}
+                                    </div>
+                                    <div className="text-sm text-gray-400 truncate">{user.email}</div>
                                 </div>
-                                <div className="text-sm text-gray-400">{user.email}</div>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-                : <FriendListSkeleton />
-            }
+                            </li>
+                        ))}
+                    </ul>
+                    : <FriendListSkeleton />
+                }
 
-            {/* Logout Button */}
-            <div className="mt-4 md:mt-auto">
-                <button onClick={handleLogout}
-                    className="w-full bg-red-600 text-white py-2 rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                {/* Logout Button */}
+                <button
+                    onClick={handleLogout}
+                    className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl font-semibold text-white"
                     disabled={loading}
                 >
                     {loading ? (
@@ -95,8 +100,7 @@ export default function FriendList() {
                         </div>
                     ) : 'Logout'}
                 </button>
-            </div>
-        </div>
-    );
-
+            </aside>
+        </>
+    )
 }
