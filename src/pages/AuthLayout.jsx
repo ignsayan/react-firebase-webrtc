@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import ManualAuth from '../components/ManualAuth';
+import React from 'react';
 import GoogleAuth from '../components/GoogleAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { auth } from '../configs/firebase';
@@ -10,8 +9,6 @@ import {
 } from '../modules/auth/reducer';
 
 export default function AuthPage() {
-
-    const [isRegister, setIsRegister] = useState(false);
 
     const { loading } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -26,20 +23,12 @@ export default function AuthPage() {
     return (
         <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
             <div className="bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-sm text-white">
-                <ManualAuth
-                    isRegister={isRegister}
-                    setIsRegister={setIsRegister}
-                />
+                <h2 className="text-3xl font-semibold mb-6">Welcome to {import.meta.env.VITE_APP_NAME}</h2>
                 <GoogleAuth
-                    labelPrefix={isRegister ? 'Register' : 'Login'}
+                    labelPrefix={'Continue'}
                     handleGoogleAuthentication={handleGoogleAuthentication}
                     loading={loading}
                 />
-
-                <div className="mt-6 text-sm text-center text-gray-400">
-                    Forgot your password?{' '}
-                    <a href="#" className="text-blue-500">Reset</a>
-                </div>
             </div>
         </div>
     );
