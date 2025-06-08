@@ -1,21 +1,11 @@
 import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../configs/firebase';
-import { useDispatch, useSelector } from 'react-redux';
-import { initiateLogin, attemptLogin } from '../modules/auth/reducer';
 
-export default function GoogleAuth() {
-
-    const { loading } = useSelector((state) => state.auth);
-    const dispatch = useDispatch();
-
-    const handleGoogleAuthentication = async () => {
-        dispatch(initiateLogin());
-        const provider = new GoogleAuthProvider();
-        const google = await signInWithPopup(auth, provider);
-        dispatch(attemptLogin(google.user));
-    };
+export default function GoogleAuth({
+    labelPrefix,
+    handleGoogleAuthentication,
+    loading,
+}) {
 
     return (
         <button
@@ -29,7 +19,7 @@ export default function GoogleAuth() {
                 </svg>
                 : <FcGoogle className="text-xl" />
             }
-            Continue with Google
+            {labelPrefix} with Google
         </button>
     );
 }

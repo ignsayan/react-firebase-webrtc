@@ -1,42 +1,14 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../modules/auth/reducer';
+import React from 'react';
 import FriendListSkeleton from './loaders/FriendListSkeleton';
-import {
-    getAvailableUsers,
-    getChatroomUser,
-    getChatHistory,
-    listenToMessages,
-    resetChatState,
-} from '../modules/chat/reducer';
 
-export default function FriendList({ sidebarOpen, setSidebarOpen }) {
-
-    const { users, loading } = useSelector((state) => state.chat);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getAvailableUsers());
-    }, []);
-
-    const openInbox = (uid) => () => {
-        const currentUserId = localStorage.getItem('uid');
-        dispatch(resetChatState());
-        dispatch(getChatroomUser(uid));
-        dispatch(getChatHistory({
-            sender: currentUserId,
-            receiver: uid,
-        }));
-        dispatch(listenToMessages({
-            sender: currentUserId,
-            receiver: uid,
-        }));
-    };
-
-    const handleLogout = () => {
-        dispatch(resetChatState({ type: 'logout' }));
-        dispatch(logoutUser());
-    };
+export default function FriendList({
+    sidebarOpen,
+    setSidebarOpen,
+    users,
+    openInbox,
+    handleLogout,
+    loading,
+}) {
 
     return (
         <>
@@ -102,5 +74,5 @@ export default function FriendList({ sidebarOpen, setSidebarOpen }) {
                 </button>
             </aside>
         </>
-    )
+    );
 }
